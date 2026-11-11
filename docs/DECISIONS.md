@@ -30,3 +30,15 @@ Autonomous decisions made while building ChessVision, with reasons. Newest at th
 - **Evaluation set**: ChessReD2K test split (306 images, 4 held-out games per... see reports/data),
   not the paper's full 2,129-image test split. Comparison with the paper is therefore indicative
   only; the README says so.
+
+## Board logic
+- **Anchor lift 0.10.** Piece anchor = bottom-centre of the box, lifted by 10% of box height
+  (the base ellipse is slightly above the box's bottom edge). With *ground-truth* boxes and corners
+  on the 306 test images this gives 100% perfect boards vs 98.7% for the plain bottom-centre
+  (`reports/eval/geometry_oracle.json`). Caveat: chosen among 3 values on the same images it is
+  reported on; it is a geometry constant, not a learned parameter, but treat the oracle as a ceiling.
+- **Auto-orientation** scores the 4 rotations by "white pieces low, black high" (kings and pawns
+  weighted double). Oracle accuracy 96.4% — it fails on sparse endgames (6-7 pieces). Mitigation:
+  explicit `rotation` parameter in the API, and a rotate control in the dashboard.
+- Castling rights are inferred only when king and rook sit on home squares; side to move defaults
+  to White (a photo cannot tell) and is a request parameter.
