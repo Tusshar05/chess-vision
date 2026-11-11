@@ -42,3 +42,23 @@ Autonomous decisions made while building ChessVision, with reasons. Newest at th
   explicit `rotation` parameter in the API, and a rotate control in the dashboard.
 - Castling rights are inferred only when king and rook sit on home squares; side to move defaults
   to White (a photo cannot tell) and is a request parameter.
+
+## Inference, evaluation, benchmark
+- **One downscale, then models.** Photos (3072 px) are area-downscaled once to a 1280 px long
+  side — exactly how training images were prepared — and detections/corners are mapped back to the
+  original coordinates. Avoids two expensive resizes and keeps train/inference preprocessing aligned.
+- **ONNX pipeline, no PyTorch at serving time.** Ultralytics exports raw head tensors; decoding,
+  per-class NMS (OpenCV) and pose decoding are implemented in `ml/chessvision/onnx_infer.py`.
+- **INT8 = static QDQ, per-channel, calibrated on 50 train/val images** (never the test split).
+- **Benchmark honesty.** Importing Ultralytics silently disables OpenCV threading, which made the
+  resize look 7x slower in my first benchmark run; `ml/benchmark.py` re-enables it so the numbers
+  reflect the deployed (Ultralytics-free) API. Benchmarks use `learned_only` corner mode so a
+  silent fallback to the slow classical detector cannot pollute latency.
+- **coremltools 9 needs numpy < 2.3** (export crashed on 2.3.5); pinned in requirements.txt.
+- **MLflow** uses a local SQLite store (`mlflow.db`); the file store is deprecated in current MLflow.
+- **Smoke vs trained separation.** `weights/manifest.json` carries `kind`; evaluation and
+  benchmark write smoke output to `reports/eval_smoke/` / `reports/benchmark_smoke.*`, and
+  `make report` only reads trained outputs, so smoke numbers cannot reach the README.
+- **Model selection uses validation mAP50-95**, never the test split (`scripts/install_weights.py`).
+- **Square accuracy counts empty squares** (64 per board), so a model that predicts nothing still
+  scores ~50%; the headline metrics are boards with 0 / <=1 errors and mean errors per board.

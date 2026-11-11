@@ -77,7 +77,7 @@ def test_pipeline_end_to_end_with_fakes() -> None:
     assert res.fen == "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
     assert res.warnings == [] and res.corner_source == "learned"
     assert res.square_confidences()["e1"]["piece"] == "K"
-    assert set(res.timings_ms) == {"corners", "detect", "geometry", "total"}
+    assert set(res.timings_ms) == {"resize", "corners", "detect", "geometry", "total"}
 
 
 def test_pipeline_turn_black() -> None:
@@ -100,3 +100,13 @@ def test_render_outputs() -> None:
     assert render.top_down(img, res.corners, res.reconstruction).shape == (640, 640, 3)
     svg = render.board_svg(res.fen, "e2e4")
     assert svg.startswith("<svg")
+
+
+def test_downscale_keeps_original_coordinates() -> None:
+    from ml.chessvision.pipeline import downscale
+
+    big = np.zeros((2000, 4000, 3), np.uint8)
+    small, f = downscale(big)
+    assert small.shape[1] == 1280 and f == pytest.approx(0.32)
+    same, f1 = downscale(np.zeros((500, 600, 3), np.uint8))
+    assert f1 == 1.0 and same.shape[:2] == (500, 600)
