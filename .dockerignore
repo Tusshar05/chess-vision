@@ -1,0 +1,16 @@
+.git
+.venv
+data
+runs
+runs_smoke
+mlruns
+mlflow.db
+release_assets
+reports/eval_smoke
+**/__pycache__
+.pytest_cache
+.ruff_cache
+htmlcov
+weights/*.pt
+weights/*.mlpackage
+notebooks

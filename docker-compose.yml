@@ -1,0 +1,30 @@
+# make up  ->  API on :8000, dashboard on :8501.
+# Model files are a bind mount: swap smoke -> trained weights with `make weights export` and
+# `docker compose restart api` - no rebuild needed.
+services:
+  api:
+    build:
+      context: .
+      dockerfile: services/api/Dockerfile
+    image: chessvision-api:local
+    ports: ["8000:8000"]
+    environment:
+      MODEL_PRECISION: ${MODEL_PRECISION:-fp32}
+    volumes:
+      - ./weights:/models:ro
+      - history:/data
+    restart: unless-stopped
+  dashboard:
+    build:
+      context: .
+      dockerfile: services/dashboard/Dockerfile
+    image: chessvision-dashboard:local
+    ports: ["8501:8501"]
+    environment:
+      API_URL: http://api:8000
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+volumes:
+  history:
