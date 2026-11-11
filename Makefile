@@ -26,6 +26,7 @@ bench:  ## latency + accuracy by backend -> reports/benchmark.md
 	$(PY) -m ml.benchmark
 
 report:  ## regenerate README results tables from reports/
+	$(PY) -m ml.training_runs
 	$(PY) scripts/make_report.py
 
 test:

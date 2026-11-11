@@ -27,8 +27,9 @@ Autonomous decisions made while building ChessVision, with reasons. Newest at th
   an *image-space canonical order* (TL,TR,BR,BL starting from the corner with min x+y), and resolve
   which board corner is a8 afterwards from piece colours (4 rotations scored; user flag overrides).
   This keeps the keypoint task easy and makes `fliplr` augmentation valid (`flip_idx=[1,0,3,2]`).
-- **Evaluation set**: ChessReD2K test split (306 images, 4 held-out games per... see reports/data),
-  not the paper's full 2,129-image test split. Comparison with the paper is therefore indicative
+- **Evaluation set**: ChessReD2K test split (306 images from **only 3 games**: ChessReD2K's test split is 3 of the 20 test games,
+  so per-board results have wide error bars and one board/lighting setup can dominate), not the paper's
+  full 2,129-image test split. Comparison with the paper is therefore indicative
   only; the README says so.
 
 ## Board logic
