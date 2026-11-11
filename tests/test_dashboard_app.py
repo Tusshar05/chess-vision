@@ -27,5 +27,5 @@ def test_dashboard_renders_and_warns_on_smoke_model() -> None:
     with patch("requests.request", side_effect=fake_request):
         at = AppTest.from_file(str(APP), default_timeout=30).run()
     assert not at.exception
-    assert any("smoke" in w.value for w in at.warning)
+    assert any("Smoke-test weights loaded" in e.value for e in at.error)
     assert at.title[0].value.endswith("ChessVision")

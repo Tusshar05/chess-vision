@@ -37,7 +37,8 @@ Everything is built and tested with smoke weights. These steps produce the real 
    ```
    (Weights stay out of git; `release_assets/` and `weights/*.pt|onnx` are gitignored.)
 8. **Upload weights as a GitHub Release:** GitHub -> Releases -> Draft a new release -> tag `v0.1.0`
-   -> attach `chessvision_weights.zip`, and `weights/detector.onnx`, `weights/corners.onnx`,
+   -> paste the notice from `LICENSE-DATA-AND-WEIGHTS.md` into the release description (weights are
+   CC BY-NC-SA 4.0), attach `chessvision_weights.zip`, and `weights/detector.onnx`, `weights/corners.onnx`,
    `weights/manifest.json` (used by `scripts/download_weights.py` and the Kubernetes load job).
 9. **Deploy the demo** per [DEPLOY_DEMO.md](DEPLOY_DEMO.md).
 10. **Fill the resume bullets** in [RESUME.md](RESUME.md) using only numbers from `reports/`.

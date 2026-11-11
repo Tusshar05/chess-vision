@@ -9,6 +9,10 @@ homography that maps every piece to its square; everything runs on **CPU** throu
 (FP32 / INT8, CoreML export for iPhone) behind a FastAPI service, a Streamlit dashboard and a
 Gradio demo.
 
+> ⚠️ **Smoke-test weights ≠ results.** With the tiny smoke weights the API's `/health` reports
+> `kind: smoke`, and the dashboard and demo show a banner **“Smoke-test weights loaded — results not
+> meaningful”**.
+
 > **Status:** the full system is built and tested end to end. Model **training happens on a free
 > Colab T4** (`notebooks/train_colab.ipynb`); until the trained weights are added, the repo runs
 > with tiny *smoke-test* weights that prove the pipeline but are **not accurate**. Result tables
@@ -170,13 +174,14 @@ reports/            generated results     docs/                learning guide, i
 Docs: [LEARNING](docs/LEARNING.md) · [INTERVIEW_PREP](docs/INTERVIEW_PREP.md) · [DECISIONS](docs/DECISIONS.md) · [EDGE](docs/EDGE.md) · [DEPLOY_DEMO](docs/DEPLOY_DEMO.md) · [RUN_ORDER](docs/RUN_ORDER.md) · [RESUME](docs/RESUME.md)
 
 ## Licenses and citations
-- **This repository: AGPL-3.0** ([LICENSE](LICENSE)), because it depends on Ultralytics YOLO.
-- **Ultralytics YOLO11:** AGPL-3.0.
-- **Stockfish:** GPL-3.0, executed as a separate binary over UCI (not linked).
-- **Dataset — ChessReD:** the brief states CC BY 4.0, but the 4TU.ResearchData record lists
-  **CC BY-NC-SA 4.0** (attribution, non-commercial, share-alike). I follow the source record; see
-  [docs/DECISIONS.md](docs/DECISIONS.md). Sample photos in `samples/` are resized test-split images
-  under the same license.
+- **Code in this repository: AGPL-3.0** ([LICENSE](LICENSE)), because it depends on Ultralytics YOLO.
+- **Dataset, `samples/` images and any trained weights: CC BY-NC-SA 4.0** — attribution,
+  **non-commercial**, share-alike. The weights are trained on ChessReD, so they inherit this. Full
+  notice and attribution: [LICENSE-DATA-AND-WEIGHTS.md](LICENSE-DATA-AND-WEIGHTS.md). GitHub
+  Releases and Hugging Face Spaces carrying the weights must repeat it.
+- **Dataset provenance:** the brief said CC BY 4.0, but the 4TU.ResearchData record lists
+  CC BY-NC-SA 4.0; I follow the source record ([docs/DECISIONS.md](docs/DECISIONS.md)).
+- **Ultralytics YOLO11:** AGPL-3.0. **Stockfish:** GPL-3.0, run as a separate binary over UCI.
 
 ```bibtex
 @inproceedings{masouris2024chessred,

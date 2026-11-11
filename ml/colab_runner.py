@@ -47,6 +47,9 @@ def bundle(project: Path, runs: list[str], out_zip: Path, smoke: bool) -> Path:
                 "sha256": sha256(pt),
                 "val": {k: v for k, v in m.get("val", {}).items() if k != "per_class"},
             }
+        full = project / "full_test_eval.json"
+        if full.exists():
+            zf.write(full, "full_test_eval.json")
         zf.writestr("manifest.json", json.dumps(manifest, indent=2))
     return out_zip
 
@@ -61,11 +64,16 @@ def main() -> None:
     ap.add_argument(
         "--dry-run", action="store_true", help="tiny smoke configs on local sample data"
     )
+    ap.add_argument("--bundle-only", action="store_true", help="only (re)build the zip")
     a = ap.parse_args()
 
     runs = a.runs
     if a.dry_run:
         runs = ["smoke_det", "smoke_corners"]
+    if a.bundle_only:
+        names = [train.load_config(Path("configs") / f"{n}.yaml")["name"] for n in runs]
+        print("bundle:", bundle(a.project, names, a.zip_out, smoke=a.dry_run))
+        return
     failures: dict = {}
     run_names: list[str] = []
     for name in runs:

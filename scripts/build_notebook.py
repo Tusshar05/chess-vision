@@ -160,6 +160,25 @@ sh(f"{sys.executable} -m ml.colab_runner --project {RUNS_DIR} --data-root {DATA_
 """)
 
 md("""
+## Step 6b - (optional, ~30-40 min) evaluate on the FULL ChessReD test split
+The local 306-image test set covers only 3 games. This step runs the best detector + corner model
+(selected by *validation* mAP50-95) on all 2,129 official test images (20 games), fetching only the
+test images (~5 GB) from the remote archive, and reports 95% bootstrap confidence intervals.
+Corner labels exist only for ChessReD2K, so this uses automatic orientation. Results go to
+`full_test_eval.json`, which is added to the download zip. Set `RUN_FULL_EVAL = False` to skip.
+""")
+code("""
+RUN_FULL_EVAL = True
+if RUN_FULL_EVAL:
+    extra = "--local-only --limit 5 --device cpu" if DRY_RUN else ""
+    sh(f"{sys.executable} -m ml.evaluate_full --project {RUNS_DIR} "
+       f"--out {RUNS_DIR}/full_test_eval.json {extra}")
+    flags = "--dry-run" if DRY_RUN else ""
+    sh(f"{sys.executable} -m ml.colab_runner --bundle-only --project {RUNS_DIR} "
+       f"--zip-out {DRIVE_DIR}/chessvision_weights.zip {flags}")
+""")
+
+md("""
 ## Step 7 - results at a glance
 Reads every `metrics.json` and prints a comparison table (640 vs 960, n vs s, corner model).
 """)

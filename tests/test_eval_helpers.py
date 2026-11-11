@@ -113,3 +113,15 @@ def test_classic_corners_finds_clean_synthetic_board() -> None:
 
 def test_classic_corners_none_on_blank_image() -> None:
     assert corners_classic.find_corners(np.full((400, 400, 3), 128, np.uint8)) is None
+
+
+def test_bootstrap_ci_brackets_point_estimate() -> None:
+    from ml.stats import bootstrap_ci
+
+    errs = [0] * 40 + [2] * 60
+    games = [i % 4 for i in range(100)]
+    ci = bootstrap_ci(errs, games, n=300)
+    lo, hi = ci["board_bootstrap"]["boards_0_errors_pct"]
+    assert lo <= 40 <= hi and ci["n_games"] == 4
+    glo, ghi = ci["game_cluster_bootstrap"]["mean_errors_per_board"]
+    assert glo <= 1.2 <= ghi

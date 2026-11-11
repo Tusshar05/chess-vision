@@ -17,6 +17,10 @@ E2E = {
     "square_accuracy_pct": 97.7,
 }
 
+CI = {
+    k: [1.0, 2.0] for k in ("boards_0_errors_pct", "boards_le1_errors_pct", "mean_errors_per_board")
+}
+
 
 def _write(root: Path, kind: str) -> None:
     (root / "eval").mkdir(parents=True)
@@ -32,6 +36,12 @@ def _write(root: Path, kind: str) -> None:
                 "end_to_end_auto_orientation": E2E,
                 "end_to_end_given_orientation": E2E,
                 "end_to_end_classic_corners_given_orientation": E2E,
+                "ci95_auto_orientation": {
+                    "n_boards": 10,
+                    "n_games": 3,
+                    "board_bootstrap": CI,
+                    "game_cluster_bootstrap": CI,
+                },
                 "paper_reference": {"board_accuracy_pct": 15.26, "note": "indicative."},
             }
         )
@@ -76,6 +86,7 @@ def test_trained_weights_render_tables(tmp_path, monkeypatch) -> None:
     out = mr.results_block()
     assert "| 0.9 | 0.7 | 0.8 | 0.85 |" in out and "15.26%" in out and "OpenCV baseline" in out
     assert "ONNX FP32 | 50 | 60" in mr.bench_block()
+    assert "95% confidence intervals" in out
 
 
 def test_main_replaces_blocks(tmp_path, monkeypatch) -> None:

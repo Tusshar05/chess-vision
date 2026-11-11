@@ -20,15 +20,16 @@ sdk: gradio
 sdk_version: 4.44.0
 app_file: app.py
 pinned: false
-license: agpl-3.0
+license: cc-by-nc-sa-4.0
 ---
 
 # ChessVision demo
 
 Photo of a physical chessboard -> FEN -> Stockfish best move. Code: https://github.com/Tusshar05/chess-vision
 
-Trained on ChessReD (CC BY-NC-SA 4.0): Masouris & van Gemert, End-to-End Chess
-Recognition, VISAPP 2024.
+**License:** models and sample images are CC BY-NC-SA 4.0 (non-commercial, share-alike,
+attribution). Trained on ChessReD: Masouris & van Gemert (TU Delft), End-to-End Chess Recognition,
+VISAPP 2024, DOI 10.4121/99b5c721-280b-450b-b058-b2900b69a90f.v2. Code: AGPL-3.0.
 Ultralytics YOLO is AGPL-3.0; Stockfish (GPL-3.0) is run as a separate binary.
 """
 
@@ -65,6 +66,7 @@ def main() -> int:
     for f in ("app.py", "requirements.txt", "packages.txt"):
         shutil.copy(f"demo/{f}", out / f)
     (out / "README.md").write_text(SPACE_README)
+    shutil.copy("LICENSE-DATA-AND-WEIGHTS.md", out / "LICENSE-DATA-AND-WEIGHTS.md")
     print("built", out, "- now push this folder to your Hugging Face Space (docs/DEPLOY_DEMO.md)")
     return 0
 
