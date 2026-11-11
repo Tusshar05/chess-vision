@@ -33,6 +33,7 @@ def main(data_root: Path = Path("data/yolo_smoke"), project: Path = Path("runs_s
                 "note": SMOKE_NOTE,
                 "detector": "detector_smoke",
                 "corners": "corners_smoke",
+                "imgsz": {"detector": 320, "corners": 320},
             },
             indent=2,
         )

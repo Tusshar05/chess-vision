@@ -1,0 +1,19 @@
+{
+  "kind": "smoke",
+  "models": {
+    "detector": {
+      "source": "detector_smoke.pt",
+      "imgsz": 320,
+      "onnx_fp32_mb": 10.55,
+      "onnx_int8_mb": 3.15,
+      "coreml": "detector.mlpackage"
+    },
+    "corners": {
+      "source": "corners_smoke.pt",
+      "imgsz": 320,
+      "onnx_fp32_mb": 10.8,
+      "onnx_int8_mb": 3.25,
+      "coreml": "corners.mlpackage"
+    }
+  }
+}
