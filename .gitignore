@@ -26,3 +26,6 @@ services/**/*.db
 history.db
 # keep small smoke artifacts + metrics
 !weights/.gitkeep
+runs_smoke/
+mlflow.db
+runs_smoke_notebook/

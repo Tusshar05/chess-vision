@@ -1,0 +1,9 @@
+# SMOKE TEST ONLY - proves the pipeline runs; not for reporting.
+name: det_smoke
+task: detect
+model: yolo11n.pt
+imgsz: 320
+epochs: 2
+batch: 8
+workers: 0
+train_args: {mosaic: 0.0}
