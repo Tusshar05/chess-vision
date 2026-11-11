@@ -1,0 +1,20 @@
+{
+  "bottom_centre (lift 0.00)": {
+    "images": 306,
+    "perfect_boards_pct": 98.69,
+    "mean_errors_per_board": 0.0261,
+    "auto_orientation_accuracy_pct": 96.41
+  },
+  "lift 0.10": {
+    "images": 306,
+    "perfect_boards_pct": 100.0,
+    "mean_errors_per_board": 0.0,
+    "auto_orientation_accuracy_pct": 96.41
+  },
+  "lift 0.20": {
+    "images": 306,
+    "perfect_boards_pct": 98.69,
+    "mean_errors_per_board": 0.0359,
+    "auto_orientation_accuracy_pct": 96.41
+  }
+}
