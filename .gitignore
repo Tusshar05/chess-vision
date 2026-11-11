@@ -30,3 +30,4 @@ runs_smoke/
 mlflow.db
 runs_smoke_notebook/
 reports/eval_smoke/
+.venv-ci/
