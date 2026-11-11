@@ -1,0 +1,21 @@
+[project]
+name = "chessvision"
+version = "0.1.0"
+description = "Photo-to-position chess recognition: detect, map to squares, FEN, Stockfish."
+requires-python = ">=3.11"
+license = { text = "AGPL-3.0-or-later" }
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+extend-exclude = ["data", "mlruns", "runs", ".venv"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+ignore = ["B008"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["ml", "services/api"]
+markers = ["e2e: needs real model files (skipped when absent)"]
+addopts = "-q"
