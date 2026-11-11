@@ -2,5 +2,9 @@
   "kind": "smoke",
   "note": "smoke-test, not for reporting",
   "detector": "detector_smoke",
-  "corners": "corners_smoke"
+  "corners": "corners_smoke",
+  "imgsz": {
+    "detector": 320,
+    "corners": 320
+  }
 }

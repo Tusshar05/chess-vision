@@ -3,7 +3,7 @@ ultralytics>=8.3.0
 torch
 torchvision
 opencv-python-headless
-numpy
+numpy<2.3  # coremltools 9 export breaks on numpy>=2.3
 pillow
 pyyaml
 python-chess
@@ -27,3 +27,4 @@ streamlit
 gradio
 ruff
 pre-commit
+coremltools

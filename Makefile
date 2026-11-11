@@ -1,4 +1,5 @@
 PY ?= .venv/bin/python
+export PYTHONPATH := .
 .PHONY: setup data smoke-train weights eval export bench report test lint up down
 
 setup:  ## create venv, install deps, hooks
