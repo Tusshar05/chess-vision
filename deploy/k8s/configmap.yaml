@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: chessvision-config
+  namespace: chessvision
+data:
+  WEIGHTS_DIR: /models
+  MODEL_PRECISION: fp32          # or int8
+  DETECT_CONF: "0.25"
+  ENGINE_DEPTH: "14"
+  MAX_UPLOAD_MB: "15"
+  LOG_LEVEL: INFO
+  # SQLite on a PVC is fine for one replica. For several API replicas point this at Postgres,
+  # e.g. postgresql+psycopg://user:pass@postgres:5432/chessvision (and add psycopg to the image).
+  DB_URL: sqlite:////data/history.db
+  API_URL: http://chessvision-api:8000

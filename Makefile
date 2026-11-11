@@ -1,6 +1,6 @@
 PY ?= .venv/bin/python
 export PYTHONPATH := .
-.PHONY: setup data smoke-train weights eval export bench report test lint up down
+.PHONY: k8s-validate demo setup data smoke-train weights eval export bench report test lint up down
 
 setup:  ## create venv, install deps, hooks
 	uv venv --python 3.11 --managed-python .venv
@@ -39,3 +39,6 @@ up:
 
 down:
 	docker compose down
+
+k8s-validate:
+	kubeconform -strict -summary -ignore-missing-schemas deploy/k8s/*.yaml

@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chessvision-dashboard
+  namespace: chessvision
+  labels: {app: chessvision-dashboard}
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: chessvision-dashboard}
+  template:
+    metadata:
+      labels: {app: chessvision-dashboard}
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+      containers:
+        - name: dashboard
+          image: ghcr.io/tusshar05/chess-vision-dashboard:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8501
+              name: http
+          env:
+            - name: API_URL
+              valueFrom:
+                configMapKeyRef: {name: chessvision-config, key: API_URL}
+          resources:
+            requests: {cpu: 100m, memory: 256Mi}
+            limits: {cpu: 500m, memory: 512Mi}
+          readinessProbe:
+            httpGet: {path: /_stcore/health, port: http}
+            periodSeconds: 10
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities: {drop: [ALL]}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: chessvision-dashboard
+  namespace: chessvision
+spec:
+  selector: {app: chessvision-dashboard}
+  ports:
+    - {name: http, port: 8501, targetPort: http}
