@@ -1,0 +1,67 @@
+{
+  "weights_kind": "smoke",
+  "machine": {
+    "chip": "Apple M3 Pro",
+    "platform": "macOS-27.0.1-arm64-arm-64bit",
+    "cpu_cores_physical": "11",
+    "ram_gb": 18,
+    "python": "3.11.18",
+    "torch": "2.15.0",
+    "onnxruntime": "1.31.1"
+  },
+  "backends": {
+    "PyTorch FP32": {
+      "p50_ms": 30.7,
+      "p95_ms": 36.2,
+      "mean_ms": 32.1,
+      "images": 20,
+      "boards_0_errors_pct": 0.0,
+      "mean_errors_per_board": 21.9,
+      "square_accuracy_pct": 65.78
+    },
+    "ONNX FP32": {
+      "p50_ms": 32.6,
+      "p95_ms": 36.0,
+      "mean_ms": 32.9,
+      "images": 20,
+      "boards_0_errors_pct": 0.0,
+      "mean_errors_per_board": 22.0,
+      "square_accuracy_pct": 65.62
+    },
+    "ONNX INT8": {
+      "p50_ms": 16.5,
+      "p95_ms": 21.7,
+      "mean_ms": 17.4,
+      "images": 20,
+      "boards_0_errors_pct": 0.0,
+      "mean_errors_per_board": 21.8,
+      "square_accuracy_pct": 65.94
+    },
+    "CoreML FP16": {
+      "p50_ms": 25.6,
+      "p95_ms": 27.3,
+      "mean_ms": 25.6,
+      "images": 20,
+      "boards_0_errors_pct": 0.0,
+      "mean_errors_per_board": 21.9,
+      "square_accuracy_pct": 65.78
+    }
+  },
+  "model_sizes_mb": {
+    "detector": {
+      "source": "detector_smoke.pt",
+      "imgsz": 320,
+      "onnx_fp32_mb": 10.55,
+      "onnx_int8_mb": 3.15,
+      "coreml": "detector.mlpackage"
+    },
+    "corners": {
+      "source": "corners_smoke.pt",
+      "imgsz": 320,
+      "onnx_fp32_mb": 10.8,
+      "onnx_int8_mb": 3.25,
+      "coreml": "corners.mlpackage"
+    }
+  },
+  "threads": "default"
+}

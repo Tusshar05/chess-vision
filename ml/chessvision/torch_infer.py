@@ -26,7 +26,7 @@ class TorchDetector:
     ):
         from ultralytics import YOLO
 
-        self.model = YOLO(str(path))
+        self.model = YOLO(str(path), task="detect")
         self.imgsz, self.conf, self.iou, self.device = imgsz, conf, iou, device
 
     def detect(self, img_bgr: np.ndarray) -> list[Detection]:
@@ -55,7 +55,7 @@ class TorchCornerModel:
     def __init__(self, path: str | Path, imgsz: int, device: str = "cpu"):
         from ultralytics import YOLO
 
-        self.model = YOLO(str(path))
+        self.model = YOLO(str(path), task="pose")
         self.imgsz, self.device = imgsz, device
 
     def find(self, img_bgr: np.ndarray, min_conf: float = 0.05) -> CornerResult | None:

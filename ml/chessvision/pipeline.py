@@ -10,11 +10,24 @@ from pathlib import Path
 from typing import Protocol
 
 import chess
+import cv2
 import numpy as np
 
 from ml.chessvision import board as B
 from ml.chessvision import corners_classic
 from ml.chessvision.onnx_infer import CornerResult, OnnxCornerModel, OnnxDetector
+
+WORK_SIDE = 1280  # photos are downscaled once to this long side, matching the training data
+
+
+def downscale(img_bgr: np.ndarray, max_side: int = WORK_SIDE) -> tuple[np.ndarray, float]:
+    """Area-downscale so the long side is <= ``max_side``; returns (image, factor <= 1)."""
+    f = min(1.0, max_side / max(img_bgr.shape[:2]))
+    if f == 1.0:
+        return img_bgr, 1.0
+    h, w = img_bgr.shape[:2]
+    size = (round(w * f), round(h * f))  # explicit dsize hits OpenCV's fast INTER_AREA path
+    return cv2.resize(img_bgr, size, interpolation=cv2.INTER_AREA), f
 
 
 class BoardNotFoundError(RuntimeError):
@@ -91,6 +104,10 @@ class Recognizer:
         """Run the pipeline. ``rotation`` (0-3) overrides auto-orientation; ``turn`` is w/b."""
         t = {}
         t0 = time.perf_counter()
+        img_full = img_bgr
+        img_bgr, f = downscale(img_full)
+        t["resize"] = (time.perf_counter() - t0) * 1000
+        t0 = time.perf_counter()
         cres, source = self.find_corners(img_bgr)
         t["corners"] = (time.perf_counter() - t0) * 1000
         if cres is None:
@@ -99,6 +116,11 @@ class Recognizer:
         dets = self.detector.detect(img_bgr)
         t["detect"] = (time.perf_counter() - t0) * 1000
         t0 = time.perf_counter()
+        if f != 1.0:  # report everything in the coordinates of the original photo
+            cres = CornerResult(cres.corners / f, cres.conf)
+            dets = [
+                B.Detection(d.x1 / f, d.y1 / f, d.x2 / f, d.y2 / f, d.cls, d.conf) for d in dets
+            ]
         rec = B.reconstruct(dets, cres.corners, rotation=rotation)
         board = B.build_board(rec, chess.WHITE if turn == "w" else chess.BLACK)
         warnings = B.validate_board(board)
