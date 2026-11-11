@@ -31,6 +31,7 @@ from ml.chessvision import corners_classic, render  # noqa: E402
 from ml.chessvision.constants import CLASS_NAMES  # noqa: E402
 from ml.chessvision.pipeline import BoardNotFoundError, Recognizer, read_manifest  # noqa: E402
 from ml.data.chessred import CORNER_ORDER, Annotations, canonical_corners  # noqa: E402
+from ml.stats import bootstrap_ci  # noqa: E402
 
 PAPER_BOARD_ACC = 15.26  # % boards fully correct, Masouris & van Gemert 2024 (full test split)
 
@@ -183,6 +184,7 @@ def run_e2e(rec: Recognizer, ann: Annotations, ids: list[int], img_dir: Path, ou
         rows.append(
             {
                 "image_id": iid,
+                "game_id": ann.game_of(iid),
                 "file": im["file_name"],
                 "camera": im["camera"],
                 "pieces": len(gt),
@@ -216,6 +218,9 @@ def run_e2e(rec: Recognizer, ann: Annotations, ids: list[int], img_dir: Path, ou
         "end_to_end_auto_orientation": summarise_errors(errs_auto),
         "end_to_end_given_orientation": summarise_errors(errs_given),
         "end_to_end_classic_corners_given_orientation": summarise_errors(errs_classic),
+        "ci95_auto_orientation": bootstrap_ci(errs_auto, [r["game_id"] for r in rows]),
+        "ci95_given_orientation": bootstrap_ci(errs_given, [r["game_id"] for r in rows]),
+        "eval_set": "ChessReD2K test split (306 images, 3 games)",
         "orientation_auto_accuracy_pct": round(
             100 * np.mean([r["orientation_correct"] for r in rows]), 2
         ),

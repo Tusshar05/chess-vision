@@ -117,6 +117,27 @@ def results_block() -> str:
             f"{s['mean_err_pct_of_diag']}% | {s['within_2pct_diag']}% | "
             f"{s['within_5pct_diag']}% |"
         )
+    ci = e.get("ci95_auto_orientation")
+    if ci:
+        bb, gb = ci["board_bootstrap"], ci.get("game_cluster_bootstrap", {})
+        out += [
+            "",
+            f"**95% confidence intervals** (auto orientation, {ci['n_boards']} boards from "
+            f"{ci.get('n_games', '?')} games). Board bootstrap treats boards as independent "
+            "(optimistic: photos within a game are correlated); the game-cluster bootstrap "
+            "resamples whole games (honest, but very wide with so few games).",
+            "",
+            "| metric | board bootstrap | game-cluster bootstrap |",
+            "|---|---|---|",
+        ]
+        for k in bb:
+            out.append(
+                f"| {k} | {bb[k][0]} – {bb[k][1]} | "
+                f"{gb[k][0] if gb else 'n/a'} – {gb[k][1] if gb else 'n/a'} |"
+            )
+    full = fulltest_block()
+    if full:
+        out += ["", full]
     ref = e["paper_reference"]
     out += [
         "",
@@ -130,6 +151,41 @@ def results_block() -> str:
         "failure gallery in `reports/eval/failure_gallery/`.",
     ]
     return "\n".join(out)
+
+
+def fulltest_block() -> str:
+    """Full ChessReD test split evaluation produced in Colab (optional)."""
+    cands = sorted(Path("release_assets").glob("**/full_test_eval.json"))
+    d = load(cands[-1]) if cands else None
+    if not d or d.get("smoke"):
+        return ""
+    ci = d["full_test"]["ci95"]
+    rows = [
+        "**Full official ChessReD test split** (2,129 images, 20 games; computed in Colab; "
+        "auto orientation; this is a *different, larger set* than the 306-image 2K subset above)",
+        "",
+        "| subset | boards | 0 errors | ≤1 error | mean errors / board |",
+        "|---|---|---|---|---|",
+    ]
+    for k, label in (
+        ("full_test", "full test split"),
+        ("chessred2k_test_subset", "  of which 2K subset"),
+        ("full_test_minus_2k", "  rest (no box/corner labels)"),
+    ):
+        v = d.get(k)
+        if v:
+            rows.append(
+                f"| {label} | {v['boards']} | {v['boards_0_errors_pct']}% | "
+                f"{v['boards_le1_errors_pct']}% | {v['mean_errors_per_board']} |"
+            )
+    bb, gb = ci["board_bootstrap"], ci["game_cluster_bootstrap"]
+    rows += [
+        "",
+        f"95% CI, full split, boards with 0 errors: board bootstrap {bb['boards_0_errors_pct'][0]}"
+        f" – {bb['boards_0_errors_pct'][1]}%; game-cluster ({ci['n_games']} games) "
+        f"{gb['boards_0_errors_pct'][0]} – {gb['boards_0_errors_pct'][1]}%.",
+    ]
+    return "\n".join(rows)
 
 
 def training_block() -> str:

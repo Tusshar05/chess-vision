@@ -35,7 +35,11 @@
 
 ## Notes
 - Free CPU Spaces sleep after inactivity; the first request wakes them (~30-60 s).
-- The Space inherits the licenses: Ultralytics-derived weights are AGPL-3.0, the dataset is
+- **Licensing (required):** the weights and sample images are CC BY-NC-SA 4.0 (non-commercial,
+  share-alike, attribution to Masouris & van Gemert / TU Delft, DOI 10.4121/99b5c721-280b-450b-b058-b2900b69a90f.v2)
+  and the code is AGPL-3.0. The bundle's Space README carries this notice; also copy
+  `LICENSE-DATA-AND-WEIGHTS.md` into the Space (the bundle script does). Do not use a commercial/paid Space for it.
+- (old note) Ultralytics-derived weights are AGPL-3.0, the dataset is
   CC BY-NC-SA 4.0 (non-commercial) - keep the attribution in the Space README (the bundle script
   writes it).
 - To update: rebuild the bundle and re-run the `upload` command.

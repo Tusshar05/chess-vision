@@ -68,7 +68,7 @@ def run(image: np.ndarray | None, turn: str, rotation: str, depth: int):
 with gr.Blocks(title="ChessVision") as demo:
     gr.Markdown("# ♟️ ChessVision — photo to FEN to best move")
     if MANIFEST.get("kind") != "trained":
-        gr.Markdown("⚠️ **Smoke-test model loaded: results are not meaningful.**")
+        gr.Markdown("⚠️ **Smoke-test weights loaded — results not meaningful.**")
     with gr.Row():
         with gr.Column():
             inp = gr.Image(type="numpy", label="Photo of a chessboard")

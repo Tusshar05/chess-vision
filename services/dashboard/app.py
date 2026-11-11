@@ -58,9 +58,9 @@ health = api("GET", "/health")
 if health:
     kind = health["model"]["kind"]
     if kind != "trained":
-        st.warning(
-            f"Model kind is **{kind}** — this is a pipeline smoke test, results are not "
-            "meaningful. Train on Colab and run `make weights` for real accuracy."
+        st.error(
+            "⚠️ **Smoke-test weights loaded — results not meaningful.** "
+            "Train on Colab and run `make weights export` for real accuracy."
         )
     if not health["stockfish_available"]:
         st.error("Stockfish is not available on the API server.")
