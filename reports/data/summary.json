@@ -1,0 +1,41 @@
+{
+  "n_images": 10800,
+  "splits": {
+    "train": {
+      "images": 6479,
+      "games": 60,
+      "pieces": 136594,
+      "cameras": {
+        "Huawei P40 pro": 2102,
+        "Samsung Galaxy S8": 2231,
+        "Apple iPhone 12": 2146
+      }
+    },
+    "val": {
+      "images": 2192,
+      "games": 20,
+      "pieces": 42939,
+      "cameras": {
+        "Samsung Galaxy S8": 703,
+        "Huawei P40 pro": 638,
+        "Apple iPhone 12": 851
+      }
+    },
+    "test": {
+      "images": 2129,
+      "games": 20,
+      "pieces": 44271,
+      "cameras": {
+        "Huawei P40 pro": 871,
+        "Samsung Galaxy S8": 620,
+        "Apple iPhone 12": 638
+      }
+    }
+  },
+  "chessred2k_images": {
+    "train": 1442,
+    "val": 330,
+    "test": 306
+  },
+  "images_with_bbox_or_corners": 2078
+}
