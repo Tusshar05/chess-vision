@@ -1,0 +1,32 @@
+{
+  "G033_IMG034.jpg": {
+    "camera": "Apple iPhone 12",
+    "fen_placement": "rq3rk1/1p2bppp/p3b3/P2pp3/BP2n3/4RN2/2P2PPP/1QB1K2R",
+    "image_id": 3938
+  },
+  "G033_IMG068.jpg": {
+    "camera": "Apple iPhone 12",
+    "fen_placement": "8/1p3ppk/p3b3/P6p/8/1B2P3/6PP/3r2K1",
+    "image_id": 3972
+  },
+  "G000_IMG034.jpg": {
+    "camera": "Huawei P40 pro",
+    "fen_placement": "r3r1k1/1p1n1pp1/p1p4p/3p2q1/1P1P2n1/P1NQP1K1/1B1N1PP1/R3R3",
+    "image_id": 34
+  },
+  "G000_IMG068.jpg": {
+    "camera": "Huawei P40 pro",
+    "fen_placement": "6k1/5p2/2p3rp/1pP5/1P1Nr1n1/8/3R2PK/R7",
+    "image_id": 68
+  },
+  "G076_IMG033.jpg": {
+    "camera": "Samsung Galaxy S8",
+    "fen_placement": "2Rq1rk1/1p2ppbp/p5p1/n2p1b2/1Q1P1B1P/4PN2/PP2BPP1/4K2R",
+    "image_id": 8410
+  },
+  "G076_IMG066.jpg": {
+    "camera": "Samsung Galaxy S8",
+    "fen_placement": "6k1/1p3p2/3R2p1/p2q3p/2r4P/4P1P1/PP3PK1/8",
+    "image_id": 8443
+  }
+}
