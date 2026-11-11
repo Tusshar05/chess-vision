@@ -1,0 +1,10 @@
+# YOLO11s piece detector @640 (Colab T4). ~45 min cap.
+name: det_s_640
+task: detect
+model: yolo11s.pt
+imgsz: 640
+epochs: 80
+batch: 16
+time_hours: 0.7
+patience: 25
+train_args: {fliplr: 0.5, flipud: 0.0, mosaic: 1.0, close_mosaic: 10, cos_lr: true}

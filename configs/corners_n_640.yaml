@@ -1,0 +1,10 @@
+# YOLO11n-pose board-corner model (4 keypoints, image-space canonical order).
+name: corners_n_640
+task: pose
+model: yolo11n-pose.pt
+imgsz: 640
+epochs: 80
+batch: 16
+time_hours: 0.5
+patience: 25
+train_args: {fliplr: 0.5, flipud: 0.0, mosaic: 0.5, close_mosaic: 10, cos_lr: true}
