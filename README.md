@@ -137,7 +137,7 @@ _Pending — run Colab training and `make weights eval export bench report` (see
 The dataset paper (Masouris & van Gemert, *End-to-End Chess Recognition*, VISAPP 2024) reports
 **15.26 %** of boards recognised with zero errors on the full test split using an end-to-end CNN
 that predicts the whole board. This project uses a different, detection + geometry pipeline and is
-evaluated on the **306-image ChessReD2K test subset** (the only part with box/corner labels), so
+evaluated on the **306-image ChessReD2K test subset** (3 games; the only part with box/corner labels), so
 the comparison is indicative, not controlled. The paper's other metrics are not quoted because I
 have not independently verified them.
 
@@ -147,6 +147,8 @@ have not independently verified them.
   `rotation` override in the API/UI.
 - A photo cannot reveal side to move, castling rights or en-passant: turn is a parameter, castling
   is inferred from home squares, en-passant is never set.
+- The evaluation set is small: 306 images from only **3 games** (ChessReD2K test), so treat
+  percentages as indicative.
 - Trained on one dataset (one board and piece set, 3 phones) → expect a domain gap on other sets.
 - Look-alike pieces (bishop/pawn at steep angles) are the expected main confusion; see the confusion matrix.
 - SQLite history supports a single API replica (see [deploy/k8s/README.md](deploy/k8s/README.md)).
