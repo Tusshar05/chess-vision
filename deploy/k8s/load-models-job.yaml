@@ -1,0 +1,28 @@
+# One-off Job that downloads the exported ONNX files into the models PVC.
+# Edit MODELS_URL_BASE to where you host detector.onnx, corners.onnx and manifest.json
+# (e.g. a GitHub Release). Alternative: `kubectl cp` into a pod that mounts the PVC.
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: load-models
+  namespace: chessvision
+spec:
+  backoffLimit: 2
+  template:
+    spec:
+      restartPolicy: Never
+      securityContext: {runAsUser: 10001, fsGroup: 10001}
+      containers:
+        - name: loader
+          image: curlimages/curl:8.10.1
+          env:
+            - name: MODELS_URL_BASE
+              value: https://github.com/Tusshar05/chess-vision/releases/download/v0.1.0
+          command: ["sh", "-c"]
+          args:
+            - for f in detector.onnx corners.onnx manifest.json; do curl -fL "$MODELS_URL_BASE/$f" -o "/models/$f"; done; ls -l /models
+          volumeMounts:
+            - {name: models, mountPath: /models}
+      volumes:
+        - name: models
+          persistentVolumeClaim: {claimName: chessvision-models}
