@@ -7,10 +7,10 @@ __pycache__/
 .coverage
 htmlcov/
 coverage.xml
-data/
-mlruns/
-runs/
-release_assets/
+/data/
+/mlruns/
+/runs/
+/release_assets/
 *.pt
 *.onnx
 *.mlpackage/
@@ -25,7 +25,6 @@ dist/
 services/**/*.db
 history.db
 # keep small smoke artifacts + metrics
-!weights/.gitkeep
 runs_smoke/
 mlflow.db
 runs_smoke_notebook/
